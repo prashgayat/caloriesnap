@@ -2,6 +2,7 @@ import React from 'react';
 import { Camera } from 'lucide-react';
 import { FoodData } from '../types';
 import { getBurnTimeForAllActivities } from '../utils/burnCalculator';
+import { getHealthyTip } from '../utils/healthySubstitute';
 
 interface ResultsSectionProps {
   foodData: FoodData;
@@ -14,6 +15,7 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ foodData, onNewPhoto })
   const carbsPercentage = totalCalories > 0 ? ((foodData.carbs * 4) / totalCalories) * 100 : 0;
   const fatPercentage = totalCalories > 0 ? ((foodData.fat * 9) / totalCalories) * 100 : 0;
   const burnTimes = getBurnTimeForAllActivities(totalCalories);
+  const healthyTip = getHealthyTip(foodData.name);
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -102,6 +104,14 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ foodData, onNewPhoto })
             ))}
           </ul>
         </div>
+
+        {/* Healthy Tip Card */}
+        {healthyTip && (
+          <div className="bg-white rounded-xl shadow-sm p-6">
+            <h3 className="text-lg font-medium mb-3 text-green-700">Healthy Substitute / Modification</h3>
+            <p className="text-sm text-gray-800">{healthyTip}</p>
+          </div>
+        )}
       </div>
 
       <div className="mt-8 bg-green-50 rounded-lg p-6 border border-green-100">
