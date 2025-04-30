@@ -1,43 +1,68 @@
-# CalorieSnap 🍽️
+# ðŸ“± CalorieSnap
 
-CalorieSnap is a lightweight, mobile-friendly React app that estimates a food item's calories and macronutrients using an image, Google Cloud Vision, and Supabase.
+**CalorieSnap** is a smart, privacy-conscious web app that helps users identify foods from photos and understand their nutritional impact instantly.
 
-## 🚀 Features
+---
 
-- Upload or snap a food photo
-- Identify the food item with high accuracy
-- Retrieve calorie + macronutrient data
-- Supabase auth (email/password login with verification)
-- Saves last 5 searched food items per user (FIFO)
+## ðŸš€ Features
 
-## 🛠️ Setup
+### ðŸ” Food Identification
+Upload or capture a food photo â€” our AI instantly labels it.
 
-1. Clone the repo:
-```bash
-git clone <your-repo-url>
-cd CalorieSnap
-```
+### ðŸ§® Nutrition Breakdown
+Displays per 100g values for:
+- âœ… Calories
+- âœ… Protein, Carbs, Fat
+- âœ… Visual macronutrient bars
 
-2. Install dependencies:
+### ðŸƒâ€â™‚ï¸ Burn Time Estimator
+Shows time needed to burn the calories via:
+- Running ðŸƒ
+- Cycling ðŸš´â€â™€ï¸
+- Swimming ðŸŠâ€â™‚ï¸
+
+### ðŸ¥¦ Healthy Substitutes
+If the food is processed, CalorieSnap suggests:
+- Healthier ingredients
+- Cooking alternatives (e.g., bake instead of fry)
+
+### âš ï¸ Consumption Risk Warning
+Categorizes food as:
+- âœ… Safe (low risk)
+- âš ï¸ Moderate (watch frequency)
+- ðŸš¨ High Risk (high calories/fat or processed)
+
+---
+
+## ðŸ›  Tech Stack
+
+- **Frontend**: React + TypeScript + Tailwind CSS
+- **Auth/Backend**: Supabase (email login, DB)
+- **AI API**: Vision + Nutrition APIs (serverless)
+- **Deployment**: GitHub Codespaces
+
+---
+
+## ðŸ“¦ Run Locally
+
 ```bash
 npm install
-```
-
-3. Create a `.env` file based on `.env.example` and add your keys.
-
-4. Run locally:
-```bash
 npm run dev
 ```
 
-## 🌐 Deployment (Netlify Recommended)
+Add `.env`:
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
+```
 
-- Connect the GitHub repo to Netlify
-- Set build command: `npm run build`
-- Set publish directory: `dist`
+---
 
-## 🧠 Tech Stack
+## âœ… Status
 
-- React + Vite + Tailwind
-- Google Cloud Vision API
-- Supabase (Auth + Database)
+**MVP Complete** â€” Production-ready for demo, testing, and future feature scaling.
+
+---
+
+## ðŸ§  Made with purpose
+> Food choices made simpler, healthier, smarter.
