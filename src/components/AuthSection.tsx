@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { signUp, signIn, isEmailVerified } from '../services/AuthService';
 import { supabase } from '../lib/supabase';
 import { Mail, Lock, AlertCircle } from 'lucide-react';
 
@@ -22,28 +23,16 @@ const AuthSection: React.FC<AuthSectionProps> = ({ onAuthSuccess }) => {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: window.location.origin
-          }
-        });
-
-        if (error) throw error;
-        setMessage('Please check your email for verification link.');
+        await signUp(email, password);
+        setMessage('Please check your email for a verification link.');
       } else {
-        const { error, data } = await supabase.auth.signInWithPassword({
-          email,
-          password
-        });
-
-        if (error) throw error;
-        
-        if (data.user?.email_confirmed_at) {
+        await signIn(email, password);
+        const verified = await isEmailVerified();
+        if (verified) {
           onAuthSuccess();
         } else {
           setError('Please verify your email before logging in.');
+          await supabase.auth.signOut();
         }
       }
     } catch (err) {

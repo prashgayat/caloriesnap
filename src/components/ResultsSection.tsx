@@ -1,6 +1,7 @@
 import React from 'react';
 import { Camera } from 'lucide-react';
 import { FoodData } from '../types';
+import { getBurnTimeForAllActivities } from '../utils/burnCalculator';
 
 interface ResultsSectionProps {
   foodData: FoodData;
@@ -8,12 +9,12 @@ interface ResultsSectionProps {
 }
 
 const ResultsSection: React.FC<ResultsSectionProps> = ({ foodData, onNewPhoto }) => {
-  // Calculate the percentage of each macro relative to total calories
   const totalCalories = foodData.calories || 0;
   const proteinPercentage = totalCalories > 0 ? ((foodData.protein * 4) / totalCalories) * 100 : 0;
   const carbsPercentage = totalCalories > 0 ? ((foodData.carbs * 4) / totalCalories) * 100 : 0;
   const fatPercentage = totalCalories > 0 ? ((foodData.fat * 9) / totalCalories) * 100 : 0;
-  
+  const burnTimes = getBurnTimeForAllActivities(totalCalories);
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex justify-between items-center mb-6">
@@ -26,7 +27,7 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ foodData, onNewPhoto })
           <span>New Photo</span>
         </button>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Identification Card */}
         <div className="bg-white rounded-xl shadow-sm p-6">
@@ -38,15 +39,15 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ foodData, onNewPhoto })
             {Math.round(foodData.confidence * 100)}% confidence
           </div>
         </div>
-        
+
         {/* Macronutrient Card */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h3 className="text-lg font-medium mb-3">Nutrition (per 100g)</h3>
-          
+
           <div className="text-3xl font-bold text-gray-800 mb-4">
             {foodData.calories} kcal
           </div>
-          
+
           <div className="space-y-4">
             {/* Protein */}
             <div>
@@ -55,13 +56,13 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ foodData, onNewPhoto })
                 <span>{foodData.protein}g</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-blue-500 h-2 rounded-full" 
+                <div
+                  className="bg-blue-500 h-2 rounded-full"
                   style={{ width: `${Math.min(proteinPercentage, 100)}%` }}
                 ></div>
               </div>
             </div>
-            
+
             {/* Carbs */}
             <div>
               <div className="flex justify-between items-center mb-1">
@@ -69,13 +70,13 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ foodData, onNewPhoto })
                 <span>{foodData.carbs}g</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-yellow-500 h-2 rounded-full" 
+                <div
+                  className="bg-yellow-500 h-2 rounded-full"
                   style={{ width: `${Math.min(carbsPercentage, 100)}%` }}
                 ></div>
               </div>
             </div>
-            
+
             {/* Fat */}
             <div>
               <div className="flex justify-between items-center mb-1">
@@ -83,16 +84,26 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ foodData, onNewPhoto })
                 <span>{foodData.fat}g</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-red-500 h-2 rounded-full" 
+                <div
+                  className="bg-red-500 h-2 rounded-full"
                   style={{ width: `${Math.min(fatPercentage, 100)}%` }}
                 ></div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Burn Time Estimator Card */}
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <h3 className="text-lg font-medium mb-3">Time to Burn This</h3>
+          <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+            {burnTimes.map((item) => (
+              <li key={item.activity}>{item.label}</li>
+            ))}
+          </ul>
+        </div>
       </div>
-      
+
       <div className="mt-8 bg-green-50 rounded-lg p-6 border border-green-100">
         <h3 className="font-medium text-green-800 mb-2">Your Food Analysis</h3>
         <p className="text-green-700">
